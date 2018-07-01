@@ -5,15 +5,18 @@ import Task from "./Task.js";
 import Column from "./Column.js";
 
 class App extends Component {
+  hierarchy = ["New", "In Progress", "Done"];
   constructor(props){
     super(props);
 
-    this.state = {
+    const state = {
       counter: 0,
-      new: [],
-      prog: [],
-      done: [],
     }
+
+    this.hierarchy.forEach((name) => state[name] = []);
+
+    this.state = state;
+
   }
   addOneAndReturn(){
     this.setState({
@@ -23,19 +26,37 @@ class App extends Component {
   }
   render() {
     const addTask = (task, id) => {
+      const hierIndex = this.hierarchy.indexOf(id);
+
+      const taskElement = <Task col={id} desc={task} key={this.addOneAndReturn()} onClick={
+        (e) => {
+          e.preventDefault();
+
+          if(hierIndex !== this.hierarchy.length - 1){
+            const currList = this.state[this.hierarchy[hierIndex]].concat();
+            currList.splice(currList.indexOf(taskElement), 1);
+
+            this.setState({
+              [this.hierarchy[hierIndex]]: currList,
+            });
+
+            addTask(task, this.hierarchy[hierIndex + 1]);
+          }
+        }
+      }/>
       this.setState({
-        [id]: this.state[id].concat(
-          <Task desc={task} key={this.addOneAndReturn()}/>
-        )
+        [id]: this.state[id].concat(taskElement)
       });
     }
 
 
     return (
-      <div class="row">
-        <Column col="new" name="HI" tasks={this.state.new} addTask={addTask}/>
-        <Column col="prog" name="HI"/>
-        <Column col="done" name="HIs"/>
+      <div className="row">
+          {
+              this.hierarchy.map((name) => {
+                return <Column key={name} col={name} tasks={this.state[name]} addTask={addTask}/>
+              })
+          }
       </div>
     );
   }

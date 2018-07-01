@@ -7,9 +7,9 @@ class Column extends Component{
   render(){
     let input;
     return (
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
+      <div className="col-md-4">
+        <div className="card">
+          <div className="card-body">
             {this.props.tasks}
             <form onSubmit={
               (e) => {

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Task extends Component{
   render(){
     return (
-      <div>
+      <div onClick={this.props.onClick}>
         <p>{this.props.desc}</p>
       </div>
     );
