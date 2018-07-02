@@ -7,8 +7,8 @@ class Column extends Component{
   render(){
     let input;
     return (
-      <div className="col-md-4">
-        <div className="card h-100">
+      <div className="col-md-3">
+        <div className="card h-50">
           <div className="card-body">
             <h5 className="card-title">{this.props.col}</h5>
             {
@@ -24,16 +24,20 @@ class Column extends Component{
                 return _self;
               })
             }
-            <form onSubmit={
-              (e) => {
-                e.preventDefault();
-                this.props.addTask(input.value, this.props.col);
+            {
+              this.props.hasForm ? (
+                <form onSubmit={
+                  (e) => {
+                    e.preventDefault();
+                    this.props.addTask(input.value, this.props.col);
 
-                $(input).val("");
-              }
-            }>
-              <input className="form-control" ref={self => {input = self}} />
-            </form>
+                    $(input).val("");
+                  }
+                }>
+                <input className="form-control" ref={self => {input = self}} placeholder="Task description" />
+                </form>
+              ): ""
+            }
           </div>
         </div>
       </div>

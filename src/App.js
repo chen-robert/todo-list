@@ -39,12 +39,11 @@ class App extends Component {
       });
     }
 
-
     return (
-      <div className="row h-100">
+      <div className="row h-100 justify-content-around">
           {
-              this.hierarchy.map((name) => {
-                return <Column key={name} col={name} tasks={this.state[name]} addTask={addTask} advanceTask={advanceTask}/>
+              this.hierarchy.map((name, i) => {
+                return <Column key={name} col={name} tasks={this.state[name]} addTask={addTask} advanceTask={advanceTask} hasForm={i === 0}/>
               })
           }
       </div>
