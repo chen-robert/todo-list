@@ -9,52 +9,42 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    const state = {
-      counter: 0,
+    this.state = {}
+    this.hierarchy.forEach((name) => this.state[name] = []);
+
+    if(window.localStorage.todoList !== undefined){
+      this.state = JSON.parse(window.localStorage.todoList);
     }
-
-    this.hierarchy.forEach((name) => state[name] = []);
-
-    this.state = state;
-
-  }
-  addOneAndReturn(){
-    this.setState({
-      counter: this.state.counter + 1,
-    });
-    return this.state.counter;
   }
   render() {
-    const addTask = (task, id) => {
+    window.localStorage.todoList = JSON.stringify(this.state);
+
+    const advanceTask = (task, id) => {
       const hierIndex = this.hierarchy.indexOf(id);
 
-      const taskElement = <Task col={id} desc={task} key={this.addOneAndReturn()} onClick={
-        (e) => {
-          e.preventDefault();
+      const currList = this.state[this.hierarchy[hierIndex]].concat();
+      currList.splice(currList.indexOf(task), 1);
 
-          if(hierIndex !== this.hierarchy.length - 1){
-            const currList = this.state[this.hierarchy[hierIndex]].concat();
-            currList.splice(currList.indexOf(taskElement), 1);
-
-            this.setState({
-              [this.hierarchy[hierIndex]]: currList,
-            });
-
-            addTask(task, this.hierarchy[hierIndex + 1]);
-          }
-        }
-      }/>
       this.setState({
-        [id]: this.state[id].concat(taskElement)
+        [this.hierarchy[hierIndex]]: currList,
+      });
+
+      if(hierIndex !== this.hierarchy.length - 1){
+        addTask(task, this.hierarchy[hierIndex + 1]);
+      }
+    }
+    const addTask = (task, id) => {
+      this.setState({
+        [id]: this.state[id].concat(task)
       });
     }
 
 
     return (
-      <div className="row">
+      <div className="row h-100">
           {
               this.hierarchy.map((name) => {
-                return <Column key={name} col={name} tasks={this.state[name]} addTask={addTask}/>
+                return <Column key={name} col={name} tasks={this.state[name]} addTask={addTask} advanceTask={advanceTask}/>
               })
           }
       </div>

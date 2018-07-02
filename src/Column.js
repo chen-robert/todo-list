@@ -8,9 +8,22 @@ class Column extends Component{
     let input;
     return (
       <div className="col-md-4">
-        <div className="card">
+        <div className="card h-100">
           <div className="card-body">
-            {this.props.tasks}
+            <h5 className="card-title">{this.props.col}</h5>
+            {
+              this.props.tasks.map((task, i) => {
+                const _self = <Task col={this.props.col} desc={task} key={i} onClick={
+                  (e) => {
+                    e.preventDefault();
+
+                    this.props.advanceTask(task, this.props.col);
+                  }
+                }/>
+
+                return _self;
+              })
+            }
             <form onSubmit={
               (e) => {
                 e.preventDefault();
