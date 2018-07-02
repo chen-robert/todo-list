@@ -9,21 +9,8 @@ class Column extends Component{
     return (
       <div className="col-md-3">
         <div className="card h-50">
-          <div className="card-body">
+          <div className="p-3">
             <h5 className="card-title">{this.props.col}</h5>
-            {
-              this.props.tasks.map((task, i) => {
-                const _self = <Task col={this.props.col} desc={task} key={i} onClick={
-                  (e) => {
-                    e.preventDefault();
-
-                    this.props.advanceTask(task, this.props.col);
-                  }
-                }/>
-
-                return _self;
-              })
-            }
             {
               this.props.hasForm ? (
                 <form onSubmit={
@@ -39,6 +26,19 @@ class Column extends Component{
               ): ""
             }
           </div>
+          {
+            this.props.tasks.map((task, i) => {
+              const _self = <Task col={this.props.col} desc={task} key={i} onClick={
+                (e) => {
+                  e.preventDefault();
+
+                  this.props.advanceTask(task, this.props.col);
+                }
+              }/>
+
+              return _self;
+            })
+          }
         </div>
       </div>
     );

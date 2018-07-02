@@ -43,3 +43,12 @@ body{
   opacity: 1;
   transition: opacity 700ms ease-in;
 }
+
+.task:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.task p{
+  margin: 0;
+  font-size: 1.5em;
+}
