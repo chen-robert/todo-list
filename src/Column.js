@@ -8,7 +8,7 @@ class Column extends Component{
     let input;
     return (
       <div className="col-md-3">
-        <div className="card h-50">
+        <div className="card">
           <div className="p-3">
             <h5 className="card-title">{this.props.col}</h5>
             {
@@ -26,6 +26,7 @@ class Column extends Component{
               ): ""
             }
           </div>
+          <div className="task-container">
           {
             this.props.tasks.map((task, i) => {
               const _self = <Task col={this.props.col} desc={task} key={i} onClick={
@@ -39,6 +40,7 @@ class Column extends Component{
               return _self;
             })
           }
+          </div>
         </div>
       </div>
     );

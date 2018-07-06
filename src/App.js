@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Task from "./Task.js";
 import Column from "./Column.js";
 
 class App extends Component {
@@ -9,11 +8,14 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = {}
-    this.hierarchy.forEach((name) => this.state[name] = []);
+    const state = {};
+    state.archive = [];
+    this.hierarchy.forEach((name) => state[name] = []);
+
+    this.state = state;
 
     if(window.localStorage.todoList !== undefined){
-      this.state = JSON.parse(window.localStorage.todoList);
+      Object.assign(this.state, JSON.parse(window.localStorage.todoList));
     }
   }
   render() {
@@ -31,6 +33,10 @@ class App extends Component {
 
       if(hierIndex !== this.hierarchy.length - 1){
         addTask(task, this.hierarchy[hierIndex + 1]);
+      }else{
+        this.setState({
+          archive: this.state.archive.concat(task)
+        });
       }
     }
     const addTask = (task, id) => {
