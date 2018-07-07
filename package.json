@@ -5,16 +5,23 @@
   "dependencies": {
     "bootstrap": "^4.1.1",
     "daemonite-material": "^4.1.1",
+    "electron": "^2.0.4",
+    "foreman": "^3.0.1",
     "jquery": "^3.3.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
     "react-transition-group": "^1.2.1"
   },
+  "homepage": "./",
+  "main": "src/electron-starter.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "nf start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-start": "node src/electron-wait-react",
+    "react-start": "react-scripts start"
   }
 }
