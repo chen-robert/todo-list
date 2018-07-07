@@ -7,7 +7,7 @@ class Column extends Component{
   render(){
     let input;
     return (
-      <div className="col-md-3">
+      <div className={"col-lg-3 col-md-6 py-3 " + (this.props.mobileHidden ? "d-md-none d-lg-block": "")}>
         <div className="card">
           <div className="p-3">
             <h5 className="card-title">{this.props.col}</h5>
