@@ -4,6 +4,8 @@
 }
 body{
   padding: 25px;
+
+  user-select: none;
 }
 
 .task-appear{
@@ -33,13 +35,15 @@ body{
 .inline-task-button{
   position: absolute;
   top: 0;
-  width: 50%;
   height: 100%;
+
+  cursor: pointer;
 
   z-index: 100;
 }
 .move-back{
   left: 0;
+  width: 20%;
 }
 .move-back:hover{
   background-color: rgba(0, 0, 0, 0.1);
@@ -47,6 +51,7 @@ body{
 
 .move-forward{
   right: 0;
+  width: 80%;
 }
 .move-forward:hover{
   background-color: rgba(0, 0, 0, 0.1);

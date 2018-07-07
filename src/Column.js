@@ -21,7 +21,13 @@ class Column extends Component{
                     $(input).val("");
                   }
                 }>
-                <input className="form-control" ref={self => {input = self}} placeholder="Task description" />
+
+                  <div className="form-group">
+                    <div className="floating-label">
+                      <label for="task-inputfield">Task Description</label>
+                      <input className="form-control" id="task-inputfield" placeholder="Task Description" type="text" ref={self => {input = self}} />
+                    </div>
+                  </div>
                 </form>
               ): ""
             }

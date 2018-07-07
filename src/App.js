@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import "../node_modules/daemonite-material/js/material.min.js";
 
 import Column from "./Column.js";
 
