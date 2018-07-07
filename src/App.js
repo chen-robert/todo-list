@@ -11,6 +11,7 @@ class App extends Component {
 
     const state = {};
     state.archive = [];
+    state.deleted = [];
     this.hierarchy.forEach((name) => state[name] = []);
 
     this.state = state;
@@ -21,7 +22,6 @@ class App extends Component {
   }
   render() {
     window.localStorage.todoList = JSON.stringify(this.state);
-
     const advanceTask = (task, id, delta) => {
       const hierIndex = this.hierarchy.indexOf(id);
 
@@ -37,7 +37,11 @@ class App extends Component {
         this.setState({
           archive: this.state.archive.concat(task)
         });
-      }else if(nextIndex !== -1){
+      }else if(nextIndex === -1){
+        this.setState({
+          deleted: this.state.deleted.concat(task)
+        })
+      }else{
         addTask(task, this.hierarchy[nextIndex]);
       }
     }

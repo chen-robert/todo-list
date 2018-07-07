@@ -8,7 +8,7 @@ class Column extends Component{
     let input;
     return (
       <div className={"col-lg-3 col-md-6 py-3 " + (this.props.mobileHidden ? "d-md-none d-lg-block": "")}>
-        <div className="card">
+        <div className="card"  style={{maxHeight: "100%"}} >
           <div className="p-3">
             <h5 className="card-title">{this.props.col}</h5>
             {
@@ -19,12 +19,13 @@ class Column extends Component{
                     this.props.addTask(input.value, this.props.col);
 
                     $(input).val("");
+                    $(input).change();
                   }
                 }>
 
                   <div className="form-group">
                     <div className="floating-label">
-                      <label for="task-inputfield">Task Description</label>
+                      <label htmlFor="task-inputfield">Task Description</label>
                       <input className="form-control" id="task-inputfield" placeholder="Task Description" type="text" ref={self => {input = self}} />
                     </div>
                   </div>
