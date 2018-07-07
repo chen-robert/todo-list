@@ -15,17 +15,41 @@ body{
   transition: opacity 700ms ease-in;
 }
 
-.task:hover{
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
 .task p{
   margin: 0;
   font-size: 1.5em;
+
+  position: relative;
 }
 
 .task-container{
   overflow-y: scroll;
+}
+
+.task{
+  position: relative;
+}
+
+.inline-task-button{
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+
+  z-index: 100;
+}
+.move-back{
+  left: 0;
+}
+.move-back:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.move-forward{
+  right: 0;
+}
+.move-forward:hover{
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar {

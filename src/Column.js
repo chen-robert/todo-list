@@ -29,11 +29,9 @@ class Column extends Component{
           <div className="task-container">
           {
             this.props.tasks.map((task, i) => {
-              const _self = <Task col={this.props.col} desc={task} key={i} onClick={
-                (e) => {
-                  e.preventDefault();
-
-                  this.props.advanceTask(task, this.props.col);
+              const _self = <Task col={this.props.col} desc={task} key={i} advanceTask={
+                (delta) => {
+                  this.props.advanceTask(task, this.props.col, delta);
                 }
               }/>
 

@@ -21,7 +21,7 @@ class App extends Component {
   render() {
     window.localStorage.todoList = JSON.stringify(this.state);
 
-    const advanceTask = (task, id) => {
+    const advanceTask = (task, id, delta) => {
       const hierIndex = this.hierarchy.indexOf(id);
 
       const currList = this.state[this.hierarchy[hierIndex]].concat();
@@ -31,12 +31,13 @@ class App extends Component {
         [this.hierarchy[hierIndex]]: currList,
       });
 
-      if(hierIndex !== this.hierarchy.length - 1){
-        addTask(task, this.hierarchy[hierIndex + 1]);
-      }else{
+      const nextIndex = hierIndex + delta;
+      if(nextIndex === this.hierarchy.length){
         this.setState({
           archive: this.state.archive.concat(task)
         });
+      }else if(nextIndex !== -1){
+        addTask(task, this.hierarchy[nextIndex]);
       }
     }
     const addTask = (task, id) => {
