@@ -17,6 +17,7 @@ function createWindow() {
             slashes: true
         });
     mainWindow.loadURL(startUrl);
+    mainWindow.setMenu(null)
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => mainWindow = null);
