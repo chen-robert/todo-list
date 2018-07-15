@@ -22,6 +22,10 @@
     "eject": "react-scripts eject",
     "electron": "electron .",
     "electron-start": "node src/electron-wait-react",
-    "react-start": "react-scripts start"
+    "react-start": "react-scripts start",
+    "scss": "node-sass --watch src/scss -o src/css"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.2"
   }
 }
