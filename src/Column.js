@@ -6,22 +6,25 @@ import { TextField } from "@material-ui/core";
 
 class Column extends Component {
   render() {
-    const getNextSchoolDay = () => {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 2);
-
-      while ([0, 6].indexOf(tomorrow.getDay()) !== -1) {
-        tomorrow.setDate(tomorrow.getDate() + 1);
-      }
-
-      let day = tomorrow.getDate();
-      let month = tomorrow.getMonth() + 1;
-      const year = tomorrow.getFullYear();
+    const formatDate = (date) => {
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      const year = date.getFullYear();
 
       if (day < 10) day = "0" + day;
       if (month < 10) month = "0" + month;
 
       return `${year}-${month}-${day}`;
+    }
+    const getNextSchoolDay = () => {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      while ([0, 6].indexOf(tomorrow.getDay()) !== -1) {
+        tomorrow.setDate(tomorrow.getDate() + 1);
+      }
+
+      return formatDate(tomorrow);
     };
     let input;
     return (
@@ -38,7 +41,10 @@ class Column extends Component {
               <form
                 onSubmit={e => {
                   e.preventDefault();
-                  this.props.addTask(input.value, this.props.col);
+                  this.props.addTask({
+                    text: input.value,
+                    date: formatDate(new Date())
+                  }, this.props.col);
 
                   $(input).val("");
                   $(input).change();
@@ -74,18 +80,16 @@ class Column extends Component {
           </div>
           <div className="task-container">
             {this.props.tasks.map((task, i) => {
-              const _self = (
+              return (
                 <Task
                   col={this.props.col}
-                  desc={task}
+                  desc={task.text || task}
                   key={i}
                   advanceTask={delta => {
                     this.props.advanceTask(task, this.props.col, delta);
                   }}
                 />
               );
-
-              return _self;
             })}
           </div>
         </div>

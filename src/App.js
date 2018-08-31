@@ -8,15 +8,17 @@ import Column from "./Column.js";
 
 class App extends Component {
   hierarchy = ["New", "In Progress", "Done"];
+  finished = [false, false, true];
 
   undoHistory = [];
   redoHistory = [];
   constructor(props) {
     super(props);
 
-    const state = {};
-    state.archive = [];
-    state.deleted = [];
+    const state = {
+      archive: [],
+      deleted: []
+    };
     this.hierarchy.forEach(name => (state[name] = []));
 
     this.state = state;
