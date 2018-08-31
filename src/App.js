@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import './css/App.css';
+import React, { Component } from "react";
+import "./css/App.css";
 import "../node_modules/daemonite-material/js/material.min.js";
 
 import $ from "jquery";
@@ -11,43 +11,41 @@ class App extends Component {
 
   undoHistory = [];
   redoHistory = [];
-  constructor(props){
+  constructor(props) {
     super(props);
 
     const state = {};
     state.archive = [];
     state.deleted = [];
-    this.hierarchy.forEach((name) => state[name] = []);
+    this.hierarchy.forEach(name => (state[name] = []));
 
     this.state = state;
 
-    if(window.localStorage.todoList !== undefined){
+    if (window.localStorage.todoList !== undefined) {
       Object.assign(this.state, JSON.parse(window.localStorage.todoList));
     }
 
-
-
     const undo = () => {
-      if(this.undoHistory.length > 0){
+      if (this.undoHistory.length > 0) {
         const prevState = this.undoHistory.pop();
         this.redoHistory.push(this.state);
 
         this.setState(prevState);
       }
-    }
+    };
 
     const redo = () => {
-      if(this.redoHistory.length > 0){
+      if (this.redoHistory.length > 0) {
         const nextState = this.redoHistory.pop();
         this.undoHistory.push(this.state);
 
         this.setState(nextState);
       }
-    }
+    };
 
-    $(document).keypress((e) => {
-      if(e.ctrlKey){
-        switch(e.which){
+    $(document).keypress(e => {
+      if (e.ctrlKey) {
+        switch (e.which) {
           case 25:
             redo();
             break;
@@ -57,8 +55,6 @@ class App extends Component {
         }
       }
     });
-
-
   }
   render() {
     window.localStorage.todoList = JSON.stringify(this.state);
@@ -71,46 +67,53 @@ class App extends Component {
       currList.splice(currList.indexOf(task), 1);
 
       this.setState({
-        [this.hierarchy[hierIndex]]: currList,
+        [this.hierarchy[hierIndex]]: currList
       });
 
       const nextIndex = hierIndex + delta;
-      if(nextIndex === this.hierarchy.length){
+      if (nextIndex === this.hierarchy.length) {
         this.setState({
           archive: this.state.archive.concat(task)
         });
-      }else if(nextIndex === -1){
+      } else if (nextIndex === -1) {
         this.setState({
           deleted: this.state.deleted.concat(task)
-        })
-      }else{
+        });
+      } else {
         const id = this.hierarchy[nextIndex];
         this.setState({
           [id]: this.state[id].concat(task)
         });
       }
-    }
+    };
     const addTask = (task, id) => {
       saveState();
 
       this.setState({
         [id]: this.state[id].concat(task)
       });
-    }
+    };
 
     const saveState = () => {
       this.undoHistory.push(this.state);
       this.redoHistory.splice(0, this.redoHistory.length);
-    }
-
+    };
 
     return (
       <div className="row h-100 justify-content-around">
-          {
-              this.hierarchy.map((name, i) => {
-                return <Column key={name} col={name} tasks={this.state[name]} addTask={addTask} advanceTask={advanceTask} hasForm={i === 0} mobileHidden={i >= 2}/>
-              })
-          }
+        {this.hierarchy.map((name, i) => {
+          return (
+            <Column
+              key={name}
+              col={name}
+              tasks={this.state[name]}
+              addTask={addTask}
+              advanceTask={advanceTask}
+              hasForm={i === 0}
+              mobileHidden={i >= 2}
+            />
+          );
+        })}
       </div>
     );
   }
