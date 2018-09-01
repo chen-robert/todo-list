@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./css/App.css";
+import Calendar from "./Calendar";
 import "../node_modules/daemonite-material/js/material.min.js";
 
 import $ from "jquery";
@@ -103,6 +104,7 @@ class App extends Component {
 
     return (
       <div className="row h-100 justify-content-around">
+        <Calendar/>
         {this.hierarchy.map((name, i) => {
           return (
             <Column

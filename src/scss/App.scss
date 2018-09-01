@@ -63,6 +63,24 @@ body {
   }
 }
 
+#calendar{
+  & td:not(.current-month){
+    color: #ccc;
+  }
+  & td, th{
+    padding: 15px;
+    text-align: center;
+  }
+  & th{
+    background-color: #ddd;
+  }
+  & td:hover{
+    background-color: #eee;
+  }
+  border: 1px solid #ddd;
+}
+
+
 ::-webkit-scrollbar {
   width: 15px;
 }
