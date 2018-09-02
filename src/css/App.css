@@ -9,7 +9,7 @@ body {
   user-select: none; }
 
 .task-appear {
-  opacity: 0.01; }
+  opacity: 0.001; }
 
 .task-appear.task-appear-active {
   opacity: 1;

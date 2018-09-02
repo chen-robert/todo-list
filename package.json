@@ -4,17 +4,22 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.0.1",
+    "babel-plugin-resolver": "^1.1.0",
+    "bcrypt": "^3.0.0",
     "bootstrap": "^4.1.1",
+    "cookie-parser": "^1.4.3",
     "daemonite-material": "^4.1.1",
     "electron": "^2.0.4",
     "foreman": "^3.0.1",
+    "joi": "^13.6.0",
     "jquery": "^3.3.1",
+    "pg": "^7.4.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
     "react-transition-group": "^1.2.1"
   },
-  "homepage": "./",
+  "homepage": "localhost:3000/",
   "main": "src/electron-starter.js",
   "scripts": {
     "start": "nf start",
@@ -27,9 +32,12 @@
     "scss": "node-sass --watch src/scss -o src/css",
     "prettier": "prettier \"src/**/*\" --write",
     "lint": "eslint ./src --fix",
-    "format": "run-s prettier lint"
+    "format": "run-s prettier lint",
+    "db:init": "babel-node src/server/db/init.js",
+    "server": "babel-node app.js"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "eslint": "^5.4.0",
     "node-sass": "^4.9.2",
     "npm-run-all": "^4.1.3",
