@@ -25,7 +25,7 @@ body {
   position: relative;
   p {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 1em;
 
     position: relative;
   }
@@ -67,17 +67,22 @@ body {
   & td:not(.current-month){
     color: #ccc;
   }
+  & td.today{
+    background-color: #f6f6f6 !important;
+  }
   & td, th{
     padding: 15px;
     text-align: center;
   }
   & th{
     background-color: #ddd;
+    width: calc(100% / 7)
   }
   & td:hover{
-    background-color: #eee;
+    background-color: #eee !important;
   }
   border: 1px solid #ddd;
+  margin: 0 auto;
 }
 
 

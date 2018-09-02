@@ -17,7 +17,7 @@ class Task extends Component {
         transitionEnterTimeout={700}
         transitionLeaveTimeout={700}
       >
-        <div className="task p-4">
+        <div className="task p-2">
           <p>{this.props.desc}</p>
           <div
             className="inline-task-button move-back"

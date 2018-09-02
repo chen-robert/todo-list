@@ -1,36 +1,34 @@
 import React, { Component } from "react";
 import Task from "./Task";
 
-import $ from "jquery";
 import { TextField } from "@material-ui/core";
+import {formatDate} from "./dateUtils";
 
 class Column extends Component {
-  render() {
-    const formatDate = (date) => {
-      let day = date.getDate();
-      let month = date.getMonth() + 1;
-      const year = date.getFullYear();
-
-      if (day < 10) day = "0" + day;
-      if (month < 10) month = "0" + month;
-
-      return `${year}-${month}-${day}`;
+  constructor(props){
+    super(props);
+    
+    this.state = {
+      text: "",
+      date: this.getNextSchoolDay()
     }
-    const getNextSchoolDay = () => {
-      const tomorrow = new Date();
+  }
+  getNextSchoolDay = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    while ([0, 6].indexOf(tomorrow.getDay()) !== -1) {
       tomorrow.setDate(tomorrow.getDate() + 1);
+    }
 
-      while ([0, 6].indexOf(tomorrow.getDay()) !== -1) {
-        tomorrow.setDate(tomorrow.getDate() + 1);
-      }
-
-      return formatDate(tomorrow);
-    };
-    let input;
+    return formatDate(tomorrow);
+  }
+  render() {
+    const spacing = {marginLeft: "3px", marginRight: "3px"};
     return (
       <div
         className={
-          "col-lg-3 col-md-6 py-3 " +
+          "col-lg-4 col-md-6 py-3 " +
           (this.props.mobileHidden ? "d-md-none d-lg-block" : "")
         }
       >
@@ -41,38 +39,34 @@ class Column extends Component {
               <form
                 onSubmit={e => {
                   e.preventDefault();
-                  this.props.addTask({
-                    text: input.value,
-                    date: formatDate(new Date())
-                  }, this.props.col);
+                  this.props.addTask({...this.state}, this.props.col);
 
-                  $(input).val("");
-                  $(input).change();
+                  this.setState({text: ""});
                 }}
               >
                 <div className="form-group">
-                  <div className="floating-label">
-                    <label htmlFor="task-inputfield">Task Description</label>
-                    <input
-                      className="form-control"
-                      id="task-inputfield"
-                      placeholder="Task Description"
-                      type="text"
-                      ref={self => {
-                        input = self;
-                      }}
-                    />
-                  </div>
+                  <TextField
+                    id="task-inputfield"
+                    placeholder="Description"
+                    label="Add Task"
+                    value={this.state.text}
+                    onChange={(e) => this.setState({text: e.target.value})}
+                    style={spacing}
+                    fullWidth
+                  />
+                  <TextField
+                    id="date"
+                    label="Due Date"
+                    type="date"
+                    value={this.state.date}
+                    onChange={(e) => this.setState({date: e.target.value})}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    style={spacing}
+                  />
                 </div>
-                <TextField
-                  id="date"
-                  label="Due Date"
-                  type="date"
-                  defaultValue={getNextSchoolDay()}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
+                
               </form>
             ) : (
               ""

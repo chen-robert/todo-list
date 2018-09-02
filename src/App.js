@@ -101,10 +101,17 @@ class App extends Component {
       this.undoHistory.push(this.state);
       this.redoHistory.splice(0, this.redoHistory.length);
     };
-
+    
+    let calendarTasks = [];
+    this.hierarchy.forEach((arr, i) => {
+      if(!this.finished[i]){
+        calendarTasks = calendarTasks.concat(this.state[arr]);
+      }
+    });
     return (
+    <div>
+      <Calendar tasks={calendarTasks}/>
       <div className="row h-100 justify-content-around">
-        <Calendar/>
         {this.hierarchy.map((name, i) => {
           return (
             <Column
@@ -119,6 +126,7 @@ class App extends Component {
           );
         })}
       </div>
+    </div>
     );
   }
 }
