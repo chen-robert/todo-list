@@ -24,7 +24,7 @@
   "homepage": "localhost:3000/",
   "main": "src/electron-starter.js",
   "scripts": {
-    "start": "run-s build server",
+    "start": "run-p build server",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
