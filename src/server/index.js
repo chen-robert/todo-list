@@ -21,7 +21,7 @@ app.use(
 
 app.use(express.static(path.join(global.__rootdir, "build")));
 
-//app.post("/save", saveRoute);
+app.post("/save", saveRoute);
 app.post("/load", loadRoute);
 
 app.get("/session/*", (req, res) => {

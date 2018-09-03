@@ -4,6 +4,7 @@ import Calendar from "./Calendar";
 import "../node_modules/daemonite-material/js/material.min.js";
 
 import $ from "jquery";
+import axios from "axios";
 
 import Column from "./Column.js";
 
@@ -58,6 +59,31 @@ class App extends Component {
         }
       }
     });
+    
+    this.sessName = window.location.pathname.split("session/")[1];
+    
+    axios.post("/load", {name: this.sessName})
+    .then((res) => {
+      if(res.data){
+        if(typeof res.data === "string"){
+          this.setState(JSON.parse(res.data));
+        }else if(typeof res.data === "object"){
+          this.setState(res.data);
+        }
+      }
+    })
+    .catch(console.log);
+  }
+  interval = null;
+  componentDidMount(){
+    this.interval = setInterval(() => {
+      axios.post("/save", {name: this.sessName, state: JSON.stringify(this.state)})
+      .then(() => console.log("Saved"))
+      .catch((err) => console.log(err.response))
+    }, 5000);
+  }
+  componentWillUnmount(){
+    clearInterval(this.interval);
   }
   render() {
     window.localStorage.todoList = JSON.stringify(this.state);

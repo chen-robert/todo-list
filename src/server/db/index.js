@@ -11,10 +11,10 @@ const handleError = (err, callback) => {
 };
 export const saveState = (name, data, callback) => {
   client
-    .query("DELETE FROM data WHERE user_id = $1 RETURNING *", [name])
+    .query("DELETE FROM todolist_data WHERE user_id = $1 RETURNING *", [name])
     .then(() =>
       client.query(
-        "INSERT INTO data(user_id, data) VALUES($1, $2) RETURNING *",
+        "INSERT INTO todolist_data(user_id, data) VALUES($1, $2) RETURNING *",
         [name, data]
       )
     )
@@ -24,7 +24,7 @@ export const saveState = (name, data, callback) => {
 
 export const getSaveData = (name, callback) => {
   client
-    .query("SELECT * FROM data WHERE user_id = $1", [name])
+    .query("SELECT * FROM todolist_data WHERE user_id = $1", [name])
     .then(res => {
       if (res.rows.length === 0) {
         return callback(null, { data: null });

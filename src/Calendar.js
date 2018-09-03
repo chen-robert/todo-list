@@ -4,7 +4,6 @@ import {formatDate} from "./dateUtils";
 
 
 const Calendar = ({tasks}) => {
-  console.log(tasks);
   const start = new Date();
   start.setDate(1);
   
