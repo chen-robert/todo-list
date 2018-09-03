@@ -46,14 +46,18 @@ body {
 
 #calendar {
   border: 1px solid #ddd;
-  margin: 0 auto; }
+  margin: 0 auto;
+  max-width: 80%; }
   #calendar td:not(.current-month) {
     color: #ccc; }
   #calendar td.today {
     background-color: #f6f6f6 !important; }
   #calendar td, #calendar th {
-    padding: 15px;
-    text-align: center; }
+    text-align: center;
+    padding: 10px; }
+    @media (min-width: 500px) {
+      #calendar td, #calendar th {
+        padding: 15px; } }
   #calendar th {
     background-color: #ddd;
     width: calc(100% / 7); }
