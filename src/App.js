@@ -3,7 +3,6 @@ import "./css/App.css";
 import Calendar from "./Calendar";
 import "../node_modules/daemonite-material/js/material.min.js";
 
-import $ from "jquery";
 import axios from "axios";
 
 import Column from "./Column.js";
@@ -11,9 +10,9 @@ import Column from "./Column.js";
 class App extends Component {
   hierarchy = ["New", "In Progress", "Done"];
   finished = [false, false, true];
+  
+  loaded = false
 
-  undoHistory = [];
-  redoHistory = [];
   constructor(props) {
     super(props);
 
@@ -28,68 +27,48 @@ class App extends Component {
     if (window.localStorage.todoList !== undefined) {
       Object.assign(this.state, JSON.parse(window.localStorage.todoList));
     }
-
-    const undo = () => {
-      if (this.undoHistory.length > 0) {
-        const prevState = this.undoHistory.pop();
-        this.redoHistory.push(this.state);
-
-        this.setState(prevState);
-      }
-    };
-
-    const redo = () => {
-      if (this.redoHistory.length > 0) {
-        const nextState = this.redoHistory.pop();
-        this.undoHistory.push(this.state);
-
-        this.setState(nextState);
-      }
-    };
-
-    $(document).keypress(e => {
-      if (e.ctrlKey) {
-        switch (e.which) {
-          case 25:
-            redo();
-            break;
-          case 26:
-            undo();
-            break;
-        }
-      }
-    });
     
     this.sessName = window.location.pathname.split("session/")[1];
     
+    this.load();
+  }
+  load(){
     axios.post("/load", {name: this.sessName})
     .then((res) => {
       if(res.data){
+        let data;
         if(typeof res.data === "string"){
-          this.setState(JSON.parse(res.data));
+          data = JSON.parse(res.data);
         }else if(typeof res.data === "object"){
-          this.setState(res.data);
+          data = res.data;
+        }
+        
+        if(data && JSON.stringify(data) !== JSON.stringify(this.state)){
+          this.setState(data);
         }
       }
+      this.loaded = true
     })
     .catch(console.log);
   }
+  save(){
+    axios.post("/save", {name: this.sessName, state: JSON.stringify(this.state)})
+    .then(() => console.log("Saved"))
+    .catch((err) => console.log(err.response))    
+  }
   interval = null;
   componentDidMount(){
-    this.interval = setInterval(() => {
-      axios.post("/save", {name: this.sessName, state: JSON.stringify(this.state)})
-      .then(() => console.log("Saved"))
-      .catch((err) => console.log(err.response))
-    }, 5000);
+    this.interval = setInterval(() => this.load(), 5000);
   }
   componentWillUnmount(){
     clearInterval(this.interval);
   }
   render() {
     window.localStorage.todoList = JSON.stringify(this.state);
+    if(this.loaded){
+      this.save();
+    }
     const advanceTask = (task, id, delta) => {
-      saveState();
-
       const hierIndex = this.hierarchy.indexOf(id);
 
       const currList = this.state[this.hierarchy[hierIndex]].concat();
@@ -116,18 +95,11 @@ class App extends Component {
       }
     };
     const addTask = (task, id) => {
-      saveState();
-
       this.setState({
         [id]: this.state[id].concat(task)
       });
     };
 
-    const saveState = () => {
-      this.undoHistory.push(this.state);
-      this.redoHistory.splice(0, this.redoHistory.length);
-    };
-    
     let calendarTasks = [];
     this.hierarchy.forEach((arr, i) => {
       if(!this.finished[i]){

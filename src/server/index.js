@@ -19,6 +19,7 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => res.send("Please navigate to /session/{name}"));
 app.use(express.static(path.join(global.__rootdir, "build")));
 
 app.post("/save", saveRoute);
