@@ -1,5 +1,4 @@
 import { Client } from "pg";
-import bcrypt from "bcrypt";
 import { connectionString } from "./config";
 
 const client = new Client({ connectionString });

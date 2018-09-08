@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import Task from "./Task";
 
 import { TextField } from "@material-ui/core";
-import {formatDate} from "./dateUtils";
+import { formatDate } from "./dateUtils";
 
 class Column extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+
     this.state = {
       text: "",
       date: this.getNextSchoolDay()
-    }
+    };
   }
   getNextSchoolDay = () => {
     const tomorrow = new Date();
@@ -22,9 +22,9 @@ class Column extends Component {
     }
 
     return formatDate(tomorrow);
-  }
+  };
   render() {
-    const spacing = {marginLeft: "3px", marginRight: "3px"};
+    const spacing = { marginLeft: "3px", marginRight: "3px" };
     return (
       <div
         className={
@@ -39,9 +39,9 @@ class Column extends Component {
               <form
                 onSubmit={e => {
                   e.preventDefault();
-                  this.props.addTask({...this.state}, this.props.col);
+                  this.props.addTask({ ...this.state }, this.props.col);
 
-                  this.setState({text: ""});
+                  this.setState({ text: "" });
                 }}
               >
                 <div className="form-group">
@@ -50,7 +50,7 @@ class Column extends Component {
                     placeholder="Description"
                     label="Add Task"
                     value={this.state.text}
-                    onChange={(e) => this.setState({text: e.target.value})}
+                    onChange={e => this.setState({ text: e.target.value })}
                     style={spacing}
                     fullWidth
                   />
@@ -59,14 +59,13 @@ class Column extends Component {
                     label="Due Date"
                     type="date"
                     value={this.state.date}
-                    onChange={(e) => this.setState({date: e.target.value})}
+                    onChange={e => this.setState({ date: e.target.value })}
                     InputLabelProps={{
                       shrink: true
                     }}
                     style={spacing}
                   />
                 </div>
-                
               </form>
             ) : (
               ""

@@ -10,8 +10,8 @@ import Column from "./Column.js";
 class App extends Component {
   hierarchy = ["New", "In Progress", "Done"];
   finished = [false, false, true];
-  
-  loaded = false
+
+  loaded = false;
 
   constructor(props) {
     super(props);
@@ -24,42 +24,44 @@ class App extends Component {
 
     this.state = state;
     this.sessName = window.location.pathname.split("session/")[1];
-    
+
     this.load();
   }
-  load(){
-    axios.post("/load", {name: this.sessName})
-    .then((res) => {
-      if(res.data){
-        let data;
-        if(typeof res.data === "string"){
-          data = JSON.parse(res.data);
-        }else if(typeof res.data === "object"){
-          data = res.data;
+  load() {
+    axios
+      .post("/load", { name: this.sessName })
+      .then(res => {
+        if (res.data) {
+          let data;
+          if (typeof res.data === "string") {
+            data = JSON.parse(res.data);
+          } else if (typeof res.data === "object") {
+            data = res.data;
+          }
+
+          if (data && JSON.stringify(data) !== JSON.stringify(this.state)) {
+            this.setState(data);
+          }
         }
-        
-        if(data && JSON.stringify(data) !== JSON.stringify(this.state)){
-          this.setState(data);
-        }
-      }
-      this.loaded = true
-    })
-    .catch(console.log);
+        this.loaded = true;
+      })
+      .catch(console.log);
   }
-  save(){
-    axios.post("/save", {name: this.sessName, state: JSON.stringify(this.state)})
-    .then(() => console.log("Saved"))
-    .catch((err) => console.log(err.response))    
+  save() {
+    axios
+      .post("/save", { name: this.sessName, state: JSON.stringify(this.state) })
+      .then(() => console.log("Saved"))
+      .catch(err => console.log(err.response));
   }
   interval = null;
-  componentDidMount(){
+  componentDidMount() {
     this.interval = setInterval(() => this.load(), 5000);
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.interval);
   }
   render() {
-    if(this.loaded){
+    if (this.loaded) {
       this.save();
     }
     const advanceTask = (task, id, delta) => {
@@ -96,29 +98,29 @@ class App extends Component {
 
     let calendarTasks = [];
     this.hierarchy.forEach((arr, i) => {
-      if(!this.finished[i]){
+      if (!this.finished[i]) {
         calendarTasks = calendarTasks.concat(this.state[arr]);
       }
     });
     return (
-    <div>
-      <Calendar tasks={calendarTasks}/>
-      <div className="row h-100 justify-content-around">
-        {this.hierarchy.map((name, i) => {
-          return (
-            <Column
-              key={name}
-              col={name}
-              tasks={this.state[name]}
-              addTask={addTask}
-              advanceTask={advanceTask}
-              hasForm={i === 0}
-              mobileHidden={i >= 2}
-            />
-          );
-        })}
+      <div>
+        <Calendar tasks={calendarTasks} />
+        <div className="row h-100 justify-content-around">
+          {this.hierarchy.map((name, i) => {
+            return (
+              <Column
+                key={name}
+                col={name}
+                tasks={this.state[name]}
+                addTask={addTask}
+                advanceTask={advanceTask}
+                hasForm={i === 0}
+                mobileHidden={i >= 2}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
     );
   }
 }

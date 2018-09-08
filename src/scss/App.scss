@@ -63,33 +63,33 @@ body {
   }
 }
 
-#calendar{
-  & td:not(.current-month){
+#calendar {
+  & td:not(.current-month) {
     color: #ccc;
   }
-  & td.today{
+  & td.today {
     background-color: #f6f6f6 !important;
   }
-  & td, th{
+  & td,
+  th {
     text-align: center;
     padding: 10px;
-    @media (min-width: 500px){
+    @media (min-width: 500px) {
       padding: 15px;
     }
   }
-  & th{
+  & th {
     background-color: #ddd;
-    width: calc(100% / 7)
+    width: calc(100% / 7);
   }
-  & td:hover{
+  & td:hover {
     background-color: #eee !important;
   }
   border: 1px solid #ddd;
   margin: 0 auto;
-  
+
   max-width: 80%;
 }
-
 
 ::-webkit-scrollbar {
   width: 15px;
