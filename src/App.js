@@ -23,11 +23,6 @@ class App extends Component {
     this.hierarchy.forEach(name => (state[name] = []));
 
     this.state = state;
-
-    if (window.localStorage.todoList !== undefined) {
-      Object.assign(this.state, JSON.parse(window.localStorage.todoList));
-    }
-    
     this.sessName = window.location.pathname.split("session/")[1];
     
     this.load();
@@ -64,7 +59,6 @@ class App extends Component {
     clearInterval(this.interval);
   }
   render() {
-    window.localStorage.todoList = JSON.stringify(this.state);
     if(this.loaded){
       this.save();
     }
