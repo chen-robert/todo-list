@@ -24,7 +24,6 @@
   "homepage": "localhost:3000/",
   "main": "src/electron-starter.js",
   "scripts": {
-    "start": "run-p build server",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -36,8 +35,9 @@
     "lint": "eslint ./src --fix",
     "format": "run-s prettier lint",
     "db:init": "babel-node src/server/db/init.js",
-    "server": "babel-node app.js"
+    "start": "babel-node app.js"
   },
+  "postinstall": "npm run build",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "eslint": "^5.4.0",
