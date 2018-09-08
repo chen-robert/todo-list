@@ -39,7 +39,10 @@ class Column extends Component {
               <form
                 onSubmit={e => {
                   e.preventDefault();
-                  this.props.addTask({ ...this.state }, this.props.col);
+                  
+                  if(this.state.text.length !== 0){
+                    this.props.addTask({ ...this.state }, this.props.col);
+                  }
 
                   this.setState({ text: "" });
                 }}
