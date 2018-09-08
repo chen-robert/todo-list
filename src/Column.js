@@ -76,7 +76,7 @@ class Column extends Component {
               return (
                 <Task
                   col={this.props.col}
-                  desc={task.text || task}
+                  desc={task.text}
                   key={i}
                   advanceTask={delta => {
                     this.props.advanceTask(task, this.props.col, delta);
